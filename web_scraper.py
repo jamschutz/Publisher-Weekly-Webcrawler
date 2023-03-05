@@ -5,11 +5,7 @@ from datetime import datetime
 
 # constants
 BASE_URL = 'https://www.publishersweekly.com/pw/search/index.html?q=rights%20report%20graphic&sortByDate=on&fbclid=IwAR2_ynUNmfMHwEgRUoc6B33TNWtB9xbKxx1ytsvY4nC20A8DFc0kOKtKWbg'
-# ARTICLE_DIV_CLASS = 'card-item__content'
-# ARTICLE_TITLE_CLASS = 'card-item__link'
-# in format: Wednesday, Feb 15, 2023 10:36am
-# DATETIME_FORMAT = '%A, %b %d, %Y %I:%M%p'
-
+RIGHTS_REPORT_START = 'Rights Report:'
 
 def get_links_from_page(start_param):
     # download webpage
@@ -22,30 +18,27 @@ def get_links_from_page(start_param):
 
     links = []
     for item in list_of_links:
-        links.append(item['href'])
+        if(item.text[:len(RIGHTS_REPORT_START)]) == RIGHTS_REPORT_START:
+            links.append(item['href'])
 
 
     return links
 
-    # articles = soup.find_all('div', class_=ARTICLE_DIV_CLASS)
-
-    # article_data = []
-
-    # for article in articles:
-    #     article_title = article.a.h4.text
-    #     article_url   = article.a['href']
-    #     article_date  = article.find('time')['datetime']
-
-    #     # convert to datetime
-    #     article_date = datetime.strptime(article_date, DATETIME_FORMAT)
-
-    #     article_data.append({
-    #         'title': article_title,
-    #         'url': article_url,
-    #         'date': article_date
-    #     })
-
-    # return article_data
 
 
-print(len(get_links_from_page(15)))
+def get_paragraphs_with_graphic(url):
+    source = requests.get(url).text
+    soup = BeautifulSoup(source, 'lxml')
+
+    list_of_paragraphs = soup.find('p', class_='article')
+
+    paragraphs = []
+    for p in list_of_paragraphs:
+
+
+
+    return links
+
+
+
+print(get_links_from_page(0))
