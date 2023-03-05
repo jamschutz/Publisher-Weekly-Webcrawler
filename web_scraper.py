@@ -30,15 +30,18 @@ def get_paragraphs_with_graphic(url):
     source = requests.get(url).text
     soup = BeautifulSoup(source, 'lxml')
 
-    list_of_paragraphs = soup.find('p', class_='article')
+    list_of_paragraphs = soup.find_all('p', class_='article')
+    date = soup.find('div', class_='article-date').text.strip()
 
     paragraphs = []
+    paragraphs.append(date)
+    
     for p in list_of_paragraphs:
+        if 'graphic' in p.text:
+            paragraphs.append(p.text)
+
+    return paragraphs
 
 
 
-    return links
-
-
-
-print(get_links_from_page(0))
+print(get_paragraphs_with_graphic('https://www.publishersweekly.com/pw/by-topic/childrens/childrens-book-news/article/91613-rights-report-week-of-february-20-2023.html'))

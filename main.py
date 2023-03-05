@@ -34,10 +34,31 @@ def get_all_urls():
     
     return urls
 
-    
 
 
-all_urls = get_all_urls()# save sitemap
-with open("urls.json", "w") as json_file:
-    json.dump(all_urls, json_file)
+def get_all_paragraphs():
+    urls = []
+    with open('urls.json') as f:
+        urls = json.load(f)
+
+    relevant_paragraphs = []
+    counter = 1
+    for url in urls:
+        print(f'getting url {counter} of {len(urls)}')
+        relevant_paragraphs.extend(ws.get_paragraphs_with_graphic(url))
+        counter += 1
+
+    return relevant_paragraphs
+
+
+
+# all_urls = get_all_urls()# save sitemap
+# with open("urls.json", "w") as json_file:
+#     json.dump(all_urls, json_file)
+# print('done')
+
+
+paragraphs = get_all_paragraphs()
+with open("paragraphs.json", "w") as json_file:
+    json.dump(paragraphs, json_file)
 print('done')
