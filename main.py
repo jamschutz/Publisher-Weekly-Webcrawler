@@ -45,10 +45,34 @@ def get_all_paragraphs():
     counter = 1
     for url in urls:
         print(f'getting url {counter} of {len(urls)}')
-        relevant_paragraphs.extend(ws.get_paragraphs_with_graphic(url))
+        relevant_paragraphs.append(ws.get_paragraphs_with_graphic(url))
         counter += 1
 
     return relevant_paragraphs
+
+
+def save_data_to_markdown():
+    data = []
+    with open('paragraphs.json') as f:
+        data = json.load(f)
+
+    urls = []
+    with open('urls.json') as f:
+        urls = json.load(f)
+
+    output = ""
+    index = 0
+    for item in data:
+        output += f'<b>[{item["date"]}]({urls[index]})</b><br/><br/>\n'
+        for p in item['paragraphs']:
+            output += f'{p}<br/><br/>'
+        output += '<hr>'
+
+        index += 1
+
+    with open("output.md", "w", encoding="utf-8") as f:
+        f.write(output)
+    
 
 
 
@@ -58,7 +82,9 @@ def get_all_paragraphs():
 # print('done')
 
 
-paragraphs = get_all_paragraphs()
-with open("paragraphs.json", "w") as json_file:
-    json.dump(paragraphs, json_file)
-print('done')
+# paragraphs = get_all_paragraphs()
+# with open("paragraphs.json", "w") as json_file:
+#     json.dump(paragraphs, json_file)
+# print('done')
+
+save_data_to_markdown()

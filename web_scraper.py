@@ -33,14 +33,16 @@ def get_paragraphs_with_graphic(url):
     list_of_paragraphs = soup.find_all('p', class_='article')
     date = soup.find('div', class_='article-date').text.strip()
 
-    paragraphs = []
-    paragraphs.append(date)
+    data = {
+        'date': date,
+        'paragraphs': []
+    }
     
     for p in list_of_paragraphs:
         if 'graphic' in p.text:
-            paragraphs.append(p.text)
+            data['paragraphs'].append(p.text)
 
-    return paragraphs
+    return data
 
 
 
