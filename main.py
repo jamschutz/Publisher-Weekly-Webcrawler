@@ -65,8 +65,8 @@ def save_data_to_markdown():
     for item in data:
         output += f'<b>[{item["date"]}]({urls[index]})</b><br/><br/>\n'
         for p in item['paragraphs']:
-            output += f'{p}<br/><br/>'
-        output += '<hr>'
+            output += f'{p}<br/><br/>\n'
+        output += '<hr>\n'
 
         index += 1
 
